@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <templates id="template" xml:space="preserve">
+        <!-- Inherit OrderReceipt to Modify it -->
+        <t t-name="total_quantity_pos.OrderReceipt"
+           t-inherit="point_of_sale.OrderReceipt"
+           t-inherit-mode="extension" owl="1">
+            <!-- Add Company Information and Receipt Header -->
+            <xpath expr="//div[hasclass('pos-receipt-header')]" position="before">
+                <div class="receipt-header">
+                    <h2>Receipt</h2>
+                    <div t-esc="order.pos_session.company_id.name" style="font-size: 18px; font-weight: bold;"/>
+                    <div t-esc="order.pos_session.company_id.street" style="font-size: 14px;"/>
+                    <div t-esc="order.pos_session.company_id.city" style="font-size: 14px;"/>
+                    <div t-esc="order.pos_session.company_id.zip" style="font-size: 14px;"/>
+                </div>
+            </xpath>
+
+            <!-- Add Total Quantity and Items Information -->
+            <xpath expr="//div[hasclass('pos-receipt-amount')]" position="before">
+                <t t-set="order" t-value="this.env.services.pos.get_order()"/>
+                <t t-if="this.env.services.pos.config.pos_total_quantity">
+                    <div class="total_qty" style="margin-left:150px">
+                        <div class="values" style="font-weight: bold;">
+                            <span class="badge" style="font-size: 12px;">Total Items:
+                                <t t-esc="order.orderlines.length"/></span>
+                            <br/>
+<!--                            <span class="badge" style="font-size: 16px;">Total Quantity:-->
+<!--                                <t t-set="total_qty" t-value="0"/>-->
+<!--                                <t t-foreach="order.orderlines" t-as="line" t-key="line">-->
+<!--                                    <t t-set="total_qty" t-value="total_qty + line.quantity"/>-->
+<!--                                </t>-->
+<!--                                <t t-esc="total_qty"/>-->
+<!--                            </span>-->
+<!--                            <br/>-->
+<!--                            <br/>-->
+                        </div>
+                    </div>
+                </t>
+            </xpath>
+
+            <!-- Remove Tax Information -->
+            <xpath expr="//div[hasclass('pos-receipt-tax')]" position="replace">
+                <!-- Empty tag to remove the tax information -->
+            </xpath>
+
+            <!-- Remove Tax Summary in Footer -->
+            <xpath expr="//div[hasclass('pos-receipt-footer')]/table[hasclass('pos-receipt-table')]" position="replace">
+                <!-- Empty tag to remove the tax summary table -->
+            </xpath>
+
+            <!-- Add Receipt Footer -->
+            <xpath expr="//div[hasclass('pos-receipt-footer')]" position="after">
+                <div class="receipt-footer">
+                    <div style="text-align: center; font-size: 14px;">
+                        <p>Thank you for your purchase!</p>
+                        <p>Visit again!</p>
+                    </div>
+                </div>
+            </xpath>
+        </t>
+    </templates>
+</odoo>

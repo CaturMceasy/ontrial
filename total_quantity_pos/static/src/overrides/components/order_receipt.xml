@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+     <t t-name="total_quantity_pos.OrderReceipt"
+        t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension">
+
+         <xpath expr="//t[@t-if='props.data.rounding_applied']" position="after">
+             <!-- Display the total number of items in the order -->
+             <div class="total_items pos-receipt-amount"  style="font-size: 16px;">Total Items:
+                 <span class="pos-receipt-right-align"><t t-esc="props.data.ItemCount"/></span>
+             </div>
+             <!-- Display the total quantities (custom variable) -->
+<!--             <div class="pos-receipt-amount">-->
+<!--             Total Quantity:-->
+<!--                 <span class="pos-receipt-right-align"><t t-esc="props.data.TotalQuantity"/></span>-->
+<!--             </div>-->
+         </xpath>
+
+         <!-- Remove Tax Information -->
+<!--            <xpath expr="//t[@t-if='props.data.receipt-change']" position="replace">-->
+<!--                &lt;!&ndash; Empty tag to remove the tax information &ndash;&gt;-->
+<!--            </xpath>-->
+
+            <!-- Remove Tax Summary in Footer -->
+<!--            <xpath expr="//div[contains(@class, 'pos-receipt-footer')]/table[contains(@class, 'pos-receipt-table')]" position="replace">-->
+<!--                &lt;!&ndash; Empty tag to remove the tax summary table &ndash;&gt;-->
+<!--            </xpath>-->
+
+     </t>
+</templates>
